@@ -1,0 +1,4173 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="300">
+    <title>CAST:ON</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+body {
+    font-family: Arial, "Malgun Gothic", sans-serif;
+    background:
+        radial-gradient(circle at 10% 8%, rgba(34, 211, 238, 0.28), transparent 280px),
+        radial-gradient(circle at 90% 12%, rgba(20, 184, 166, 0.26), transparent 340px),
+        radial-gradient(circle at 50% 100%, rgba(15, 118, 110, 0.18), transparent 480px),
+        linear-gradient(180deg, #dff8ff 0%, #eaf7f5 38%, #f8fafc 100%);
+    margin: 0;
+    padding: 28px;
+    color: #0f172a;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.34) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.34) 1px, transparent 1px);
+    background-size: 46px 46px;
+    opacity: 0.22;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.title-box {
+    background:
+        radial-gradient(circle at 82% 20%, rgba(255, 255, 255, 0.18), transparent 170px),
+        linear-gradient(135deg, #082f49 0%, #0369a1 48%, #0f766e 100%);
+    color: white;
+    padding: 38px;
+    border-radius: 32px;
+    margin-bottom: 26px;
+    box-shadow: 0 24px 60px rgba(8, 47, 73, 0.30);
+    position: relative;
+    overflow: hidden;
+}
+
+.title-box::before {
+    content: "FISHING REPORT";
+    position: absolute;
+    right: 34px;
+    bottom: 18px;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.28);
+    font-weight: 800;
+}
+
+.title-box::after {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    right: -100px;
+    top: -110px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.13);
+}
+
+.title-box h1 {
+    margin: 0 0 12px 0;
+    font-size: 40px;
+    letter-spacing: -1px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.18);
+}
+
+.title-box p {
+    margin: 0;
+    color: #dbeafe;
+    font-size: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.summary-card {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.10);
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #38bdf8, #0f766e);
+}
+
+.summary-card.highlight::before {
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+}
+
+.summary-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.summary-value {
+    font-size: 30px;
+    font-weight: 950;
+    color: #0f172a;
+    letter-spacing: -1px;
+}
+
+.summary-value.small-value {
+    font-size: 22px;
+    line-height: 1.3;
+}
+
+.summary-desc {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(14px);
+    border-radius: 30px;
+    padding: 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    padding-bottom: 17px;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 27px;
+    color: #020617;
+    letter-spacing: -0.6px;
+}
+
+.card-header span {
+    font-size: 13px;
+    color: #075985;
+    background: rgba(240, 249, 255, 0.9);
+    border: 1px solid rgba(125, 211, 252, 0.75);
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 10px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+
+.badge-good {
+    color: #047857;
+    background: rgba(209, 250, 229, 0.92);
+    border-color: #a7f3d0;
+}
+
+.badge-warning {
+    color: #b45309;
+    background: rgba(254, 243, 199, 0.95);
+    border-color: #fde68a;
+}
+
+.badge-danger {
+    color: #b91c1c;
+    background: rgba(254, 226, 226, 0.95);
+    border-color: #fecaca;
+}
+
+.badge-muted {
+    color: #475569;
+    background: rgba(241, 245, 249, 0.95);
+    border-color: #e2e8f0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.weather-box, .water-box {
+    border-radius: 26px;
+    padding: 22px;
+    line-height: 1.7;
+    min-height: 310px;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-box {
+    background:
+        radial-gradient(circle at 95% 10%, rgba(56, 189, 248, 0.22), transparent 130px),
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(240,249,255,0.86));
+    border: 1px solid rgba(186, 230, 253, 0.9);
+    box-shadow: inset 0 5px 0 #38bdf8, 0 10px 24px rgba(14, 165, 233, 0.08);
+}
+
+.water-box {
+    background:
+        radial-gradient(circle at 95% 10%, rgba(20, 184, 166, 0.20), transparent 130px),
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(240,253,250,0.86));
+    border: 1px solid rgba(153, 246, 228, 0.9);
+    box-shadow: inset 0 5px 0 #0f766e, 0 10px 24px rgba(15, 118, 110, 0.08);
+}
+
+.box-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-weight: 900;
+    color: #0f172a;
+    font-size: 19px;
+}
+
+.source-badge {
+    font-size: 12px;
+    font-weight: 800;
+    color: #0f766e;
+    background: rgba(204, 251, 241, 0.88);
+    border: 1px solid #99f6e4;
+    padding: 7px 11px;
+    border-radius: 999px;
+    box-shadow: 0 6px 14px rgba(15, 118, 110, 0.08);
+}
+
+.weather-source {
+    color: #0369a1;
+    background: rgba(224, 242, 254, 0.9);
+    border: 1px solid #bae6fd;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.metric-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 20px;
+    padding: 17px 10px;
+    text-align: center;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+}
+
+.metric-value {
+    font-size: 23px;
+    font-weight: 950;
+    color: #020617;
+    letter-spacing: -0.7px;
+}
+
+.metric-label {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 800;
+}
+
+.main-value {
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.96), rgba(240,253,250,0.92));
+    border: 1px solid rgba(204, 251, 241, 0.95);
+    border-radius: 22px;
+    padding: 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 12px 26px rgba(15, 118, 110, 0.10);
+}
+
+.value-number {
+    font-size: 39px;
+    font-weight: 950;
+    color: #0f766e;
+    letter-spacing: -1.3px;
+}
+
+.value-label {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 800;
+}
+
+.data-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.35);
+    font-size: 14px;
+}
+
+.data-row span {
+    color: #64748b;
+    font-weight: 800;
+}
+
+.data-row b {
+    color: #020617;
+    text-align: right;
+}
+
+.diff-up {
+    color: #dc2626;
+    font-weight: 950;
+}
+
+.diff-down {
+    color: #2563eb;
+    font-weight: 950;
+}
+
+.diff-flat {
+    color: #64748b;
+    font-weight: 950;
+}
+
+.small {
+    margin-top: 13px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.empty-text {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.route-box {
+    margin-top: 18px;
+    background:
+        radial-gradient(circle at 95% 10%, rgba(59, 130, 246, 0.18), transparent 130px),
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(239,246,255,0.88));
+    border: 1px solid rgba(191, 219, 254, 0.95);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: inset 0 5px 0 #2563eb, 0 10px 24px rgba(37, 99, 235, 0.08);
+}
+
+.route-source {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.95);
+    border: 1px solid #bfdbfe;
+}
+
+.route-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.route-item {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(226,232,240,0.95);
+    border-radius: 18px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.route-value {
+    font-size: 22px;
+    font-weight: 950;
+    color: #1e3a8a;
+    letter-spacing: -0.6px;
+}
+
+.route-label {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 800;
+}
+.title-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.title-kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 900;
+    color: rgba(224, 242, 254, 0.85);
+    margin-bottom: 8px;
+}
+
+.title-badge {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.86);
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 12px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+}
+
+.search-panel {
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr auto;
+    gap: 16px;
+    align-items: center;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.88), rgba(236,253,245,0.78));
+    border: 1px solid rgba(186, 230, 253, 0.9);
+    border-radius: 26px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.09);
+}
+
+.search-title {
+    font-size: 18px;
+    font-weight: 950;
+    color: #0f172a;
+}
+
+.search-desc {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    width: 100%;
+    border: 1px solid rgba(125, 211, 252, 0.95);
+    background: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    padding: 13px 15px;
+    font-size: 15px;
+    font-weight: 700;
+    outline: none;
+    color: #0f172a;
+    box-shadow: inset 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.search-box input:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.14);
+}
+
+.search-box button {
+    border: 0;
+    border-radius: 16px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 900;
+    color: white;
+    background: linear-gradient(135deg, #0369a1, #0f766e);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.search-count {
+    font-size: 13px;
+    font-weight: 900;
+    color: #0369a1;
+    background: rgba(224, 242, 254, 0.9);
+    border: 1px solid #bae6fd;
+    border-radius: 999px;
+    padding: 9px 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    top: 0;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #38bdf8, #0f766e, #2563eb);
+    z-index: 3;
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    right: -90px;
+    top: -80px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        radial-gradient(circle, rgba(56, 189, 248, 0.22), rgba(20, 184, 166, 0.10) 45%, transparent 70%);
+}
+
+.weather-box::after,
+.water-box::after,
+.route-box::after {
+    content: "";
+    position: absolute;
+    right: -70px;
+    top: -90px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+.weather-box::after {
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 68%);
+}
+
+.water-box::after {
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.18), transparent 68%);
+}
+
+.route-box::after {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.15), transparent 68%);
+}
+
+.field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin: -26px -26px 22px -26px;
+    padding: 24px 26px 22px 26px;
+    border-radius: 30px 30px 0 0;
+    background:
+        radial-gradient(circle at 88% 20%, rgba(56, 189, 248, 0.22), transparent 170px),
+        linear-gradient(135deg, #082f49 0%, #075985 48%, #0f766e 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.field-header::after {
+    content: "";
+    position: absolute;
+    right: -70px;
+    top: -80px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.13);
+}
+
+.field-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+.field-label {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    font-weight: 950;
+    color: rgba(224, 242, 254, 0.82);
+    margin-bottom: 8px;
+}
+
+.field-header h2 {
+    margin: 0;
+    font-size: 30px;
+    color: white;
+    letter-spacing: -0.8px;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.22);
+}
+
+.field-time {
+    font-size: 13px;
+    color: #e0f2fe;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(186, 230, 253, 0.35);
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-weight: 800;
+    white-space: nowrap;
+    backdrop-filter: blur(10px);
+}
+
+.field-header .status-badges {
+    margin-top: 12px;
+}
+
+.field-header .status-badge {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: white;
+}
+
+.weekend-box {
+    margin-top: 18px;
+    background:
+        radial-gradient(circle at 95% 10%, rgba(14, 165, 233, 0.16), transparent 130px),
+        linear-gradient(180deg, rgba(255,255,255,0.95), rgba(240,249,255,0.88));
+    border: 1px solid rgba(186, 230, 253, 0.95);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: inset 0 5px 0 #0ea5e9, 0 10px 24px rgba(14, 165, 233, 0.08);
+}
+
+.weekend-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.weekend-row {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.weekend-label {
+    font-size: 15px;
+    font-weight: 950;
+    color: #0f172a;
+}
+
+.weekend-date {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.weekend-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 900;
+    color: #1e3a8a;
+}
+/* 기존 상단 검색 패널은 사이드바로 대체 */
+.search-panel {
+    display: none;
+}
+
+.side-nav {
+    position: fixed;
+    left: 28px;
+    top: 110px;
+    width: 280px;
+    max-height: calc(100vh - 140px);
+    z-index: 50;
+}
+
+.side-nav-inner {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.18), transparent 150px),
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,249,255,0.92));
+    border: 1px solid rgba(186, 230, 253, 0.9);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.13);
+    padding: 22px;
+    overflow-y: auto;
+    max-height: calc(100vh - 140px);
+    backdrop-filter: blur(14px);
+}
+
+.side-kicker {
+    font-size: 11px;
+    letter-spacing: 2.2px;
+    font-weight: 950;
+    color: #0369a1;
+    margin-bottom: 8px;
+}
+
+.side-nav h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.side-nav p {
+    margin: 8px 0 16px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.side-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(125, 211, 252, 0.9);
+    border-radius: 16px;
+    padding: 13px 14px;
+    font-size: 14px;
+    font-weight: 800;
+    outline: none;
+    background: rgba(255, 255, 255, 0.96);
+    color: #0f172a;
+}
+
+.side-search-input:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+}
+
+.side-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 12px 0 18px 0;
+}
+
+.side-actions button {
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: white;
+    padding: 9px 13px;
+    font-size: 12px;
+    font-weight: 950;
+    cursor: pointer;
+}
+
+.side-actions span {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 900;
+}
+.side-toggle {
+    position: absolute;
+    right: -18px;
+    top: 24px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: white;
+    font-size: 16px;
+    font-weight: 950;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
+    z-index: 80;
+}
+
+.side-toggle:hover {
+    transform: scale(1.04);
+}
+
+.side-nav.collapsed {
+    width: 54px;
+}
+
+.side-nav.collapsed .side-nav-inner {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-24px);
+}
+
+.side-nav.collapsed .side-toggle {
+    right: 0;
+}
+
+.side-nav-inner {
+    transition: 0.22s ease;
+}
+
+.side-nav {
+    transition: 0.22s ease;
+}
+
+.field-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field-group-title {
+    font-size: 12px;
+    font-weight: 950;
+    color: #0f766e;
+    margin-bottom: 8px;
+    padding-left: 3px;
+}
+
+.field-link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field-link {
+    text-decoration: none;
+    color: #0f172a;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 14px;
+    padding: 11px 12px;
+    font-size: 14px;
+    font-weight: 900;
+    transition: 0.18s ease;
+}
+
+.field-link:hover {
+    transform: translateX(4px);
+    border-color: #38bdf8;
+    background: #f0f9ff;
+    color: #0369a1;
+}
+
+.spot-card {
+    scroll-margin-top: 28px;
+}
+
+.spot-card.focus-pulse {
+    box-shadow:
+        0 0 0 5px rgba(14, 165, 233, 0.18),
+        0 28px 70px rgba(15, 23, 42, 0.16);
+}
+
+@media (max-width: 800px) {
+    body {
+        padding: 14px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title-box {
+        padding: 28px;
+        border-radius: 24px;
+    }
+
+    .title-box h1 {
+        font-size: 31px;
+    }
+
+    .card {
+        padding: 20px;
+        border-radius: 24px;
+    }
+
+    .route-grid {
+        grid-template-columns: 1fr;
+    }
+        .search-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .title-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .weekend-list {
+        grid-template-columns: 1fr;
+    }
+
+    .side-nav {
+        position: fixed;
+        left: 18px;
+        top: 92px;
+        width: 260px;
+        max-height: calc(100vh - 120px);
+        margin: 0;
+        z-index: 100;
+    }
+
+    .side-nav-inner {
+        max-height: calc(100vh - 120px);
+    }
+
+    .side-toggle {
+        right: -18px;
+        top: 18px;
+    }
+
+    .side-nav-inner {
+        max-height: none;
+    }
+
+    .search-panel {
+        display: none;
+    }
+    /* 사이드바 접기/검색 안정화 보정 */
+.side-nav {
+    transition: width 0.22s ease, transform 0.22s ease !important;
+}
+
+.side-nav.collapsed {
+    width: 54px !important;
+}
+
+.side-nav.collapsed .side-nav-inner {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(-28px) !important;
+}
+
+.side-nav.collapsed .side-toggle {
+    right: 0 !important;
+}
+
+.spot-card.side-hidden {
+    display: none !important;
+}
+
+.field-link.side-hidden {
+    display: none !important;
+}
+
+.field-group.side-hidden {
+    display: none !important;
+}
+
+.side-toggle {
+    z-index: 999 !important;
+    pointer-events: auto !important;
+}
+
+/* 오른쪽 실제 지도 패널 */
+.field-map {
+    position: fixed;
+    right: 28px;
+    top: 110px;
+    width: 320px;
+    max-height: calc(100vh - 140px);
+    z-index: 40;
+}
+
+.field-map-inner {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(20, 184, 166, 0.20), transparent 150px),
+        linear-gradient(180deg, rgba(255,255,255,0.97), rgba(240,253,250,0.94));
+    border: 1px solid rgba(153, 246, 228, 0.9);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.13);
+    padding: 18px;
+    backdrop-filter: blur(14px);
+}
+
+.map-kicker {
+    font-size: 11px;
+    letter-spacing: 2.2px;
+    font-weight: 950;
+    color: #0f766e;
+    margin-bottom: 8px;
+}
+
+.field-map h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.field-map p {
+    margin: 8px 0 14px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.real-map {
+    width: 100%;
+    height: 430px;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(186, 230, 253, 0.95);
+    box-shadow: inset 0 5px 0 #0f766e, 0 14px 30px rgba(15, 23, 42, 0.10);
+}
+
+.map-help {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 800;
+    text-align: center;
+}
+
+.leaflet-popup-content {
+    font-family: Arial, "Malgun Gothic", sans-serif;
+    font-weight: 800;
+}
+
+.map-popup-title {
+    font-size: 14px;
+    font-weight: 950;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.map-popup-region {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.map-popup-button {
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: white;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+@media (max-width: 1650px) {
+    .field-map {
+        display: none;
+    }
+}
+    
+}
+    </style>
+</head>
+<body>
+    
+    <aside class="side-nav" id="sideNav">
+    <button class="side-toggle" id="sideToggle" type="button" title="필드 메뉴 접기/펼치기">
+        ◀
+    </button>
+
+    <div class="side-nav-inner">
+            <div class="side-kicker">FIELD NAVIGATION</div>
+            <h3>필드 바로가기</h3>
+            <p>지역별 저수지·댐을 선택하면 해당 리포트로 이동합니다.</p>
+
+            <input
+                type="text"
+                id="sideSpotSearch"
+                class="side-search-input"
+                placeholder="예: 금광, 고삼, 예당"
+            >
+
+            <div class="side-actions">
+                <button id="sideClearSearch" type="button">초기화</button>
+                <span id="sideVisibleCount">전체 필드</span>
+            </div>
+
+            <div class="field-groups">
+                
+        <div class="field-group" data-region="경기 안성">
+            <div class="field-group-title">경기 안성</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-1" data-spot-name="고삼지" data-region="경기 안성">
+                <span>고삼지</span>
+            </a>
+            
+            <a class="field-link" href="#spot-2" data-spot-name="금광지" data-region="경기 안성">
+                <span>금광지</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="경기 강화">
+            <div class="field-group-title">경기 강화</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-3" data-spot-name="길정지" data-region="경기 강화">
+                <span>길정지</span>
+            </a>
+            
+            <a class="field-link" href="#spot-4" data-spot-name="난정지" data-region="경기 강화">
+                <span>난정지</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="충남 예산">
+            <div class="field-group-title">충남 예산</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-5" data-spot-name="예당지" data-region="충남 예산">
+                <span>예당지</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="충남 태안">
+            <div class="field-group-title">충남 태안</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-6" data-spot-name="대야지" data-region="충남 태안">
+                <span>대야지</span>
+            </a>
+            
+            <a class="field-link" href="#spot-7" data-spot-name="중장지" data-region="충남 태안">
+                <span>중장지</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="충남 서산/태안">
+            <div class="field-group-title">충남 서산/태안</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-8" data-spot-name="대호만" data-region="충남 서산/태안">
+                <span>대호만</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="충북 충주/제천">
+            <div class="field-group-title">충북 충주/제천</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-9" data-spot-name="충주호" data-region="충북 충주/제천">
+                <span>충주호</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="충북 옥천/대전권">
+            <div class="field-group-title">충북 옥천/대전권</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-10" data-spot-name="대청호" data-region="충북 옥천/대전권">
+                <span>대청호</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="강원 화천">
+            <div class="field-group-title">강원 화천</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-11" data-spot-name="파로호" data-region="강원 화천">
+                <span>파로호</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="강원 춘천">
+            <div class="field-group-title">강원 춘천</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-12" data-spot-name="소양호" data-region="강원 춘천">
+                <span>소양호</span>
+            </a>
+            
+            <a class="field-link" href="#spot-13" data-spot-name="춘천호" data-region="강원 춘천">
+                <span>춘천호</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="전남 장성">
+            <div class="field-group-title">전남 장성</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-14" data-spot-name="장성호" data-region="전남 장성">
+                <span>장성호</span>
+            </a>
+            
+            </div>
+        </div>
+        
+        <div class="field-group" data-region="전남 영광">
+            <div class="field-group-title">전남 영광</div>
+            <div class="field-link-list">
+                
+            <a class="field-link" href="#spot-15" data-spot-name="옥실지" data-region="전남 영광">
+                <span>옥실지</span>
+            </a>
+            
+            </div>
+        </div>
+        
+            </div>
+        </div>
+    </aside>
+    
+
+    <div class="container">
+        <div class="title-box">
+    <div class="title-content">
+        <div>
+            <div class="title-kicker">BASS FISHING DASHBOARD</div>
+            <h1>🎣 CAST:ON</h1>
+            <p>생성 시각: 2026-07-21 10:45</p>
+        </div>
+        <div class="title-badge">FIELD REPORT</div>
+    </div>
+</div>
+
+<div class="search-panel">
+    <div>
+        <div class="search-title">필드 검색</div>
+        <div class="search-desc">저수지·호수 이름을 입력하면 해당 필드만 바로 보여줘.</div>
+    </div>
+    <div class="search-box">
+        <input id="spotSearch" type="text" placeholder="예: 예당, 파로호, 금광, 장성호" oninput="filterSpots()">
+        <button onclick="clearSearch()">초기화</button>
+    </div>
+    <div id="searchCount" class="search-count">전체 필드 표시 중</div>
+</div>
+
+
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="summary-label">전체 포인트</div>
+            <div class="summary-value">15곳</div>
+            <div class="summary-desc">자동 수집 중</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">강수 감지</div>
+            <div class="summary-value">11곳</div>
+            <div class="summary-desc">강수량 0mm 초과</div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">바람 체크</div>
+            <div class="summary-value">8곳</div>
+            <div class="summary-desc">풍속 4m/s 이상</div>
+        </div>
+
+        <div class="summary-card highlight">
+            <div class="summary-label">가장 가까운 곳</div>
+            <div class="summary-value small-value">길정지 · 1시간 15분</div>
+            <div class="summary-desc">카카오 최단시간 기준</div>
+        </div>
+    </div>
+    
+
+
+        <div id="spot-1" class="card spot-card" data-spot-name="고삼지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>고삼지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-warning">비 영향</span><span class="status-badge badge-warning">중거리 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.8℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">3.9 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.8 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>187°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.3 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">79.9%</div>
+                <div class="value-label">고삼 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>76.9%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +3.0%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>68.5%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-up">▲ +11.4%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.2℃</span>
+                <span>2.8 m/s</span>
+                <span>1.9 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.3℃</span>
+                <span>2.9 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.8℃</span>
+                <span>3.9 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.9℃</span>
+                <span>3.3 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">1시간 50분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">107.0 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">7,600원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-2" class="card spot-card" data-spot-name="금광지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>금광지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-warning">바람 체크</span><span class="status-badge badge-warning">비 영향</span><span class="status-badge badge-warning">중거리 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">27.0℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">5.2 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.1 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>190°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.3 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">55.4%</div>
+                <div class="value-label">금광 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>51.7%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +3.7%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>57.0%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -1.6%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.2℃</span>
+                <span>3.0 m/s</span>
+                <span>1.5 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.4℃</span>
+                <span>3.4 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.7℃</span>
+                <span>3.6 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.4℃</span>
+                <span>3.2 m/s</span>
+                <span>1.4 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">1시간 36분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">109.0 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">8,400원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-3" class="card spot-card" data-spot-name="길정지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>길정지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-warning">바람 체크</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-good">근거리 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.2℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">6.1 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">14.4 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>189°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1004.6 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">62.4%</div>
+                <div class="value-label">길정 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>60.5%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +1.9%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>69.7%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -7.3%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:40</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>22.9℃</span>
+                <span>2.1 m/s</span>
+                <span>1.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.2℃</span>
+                <span>3.7 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.1℃</span>
+                <span>3.4 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.9℃</span>
+                <span>4.6 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">1시간 15분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">54.9 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">0원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-4" class="card spot-card" data-spot-name="난정지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>난정지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-warning">중거리 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.4℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">10.9 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">11.1 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>193°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1004.2 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">83.0%</div>
+                <div class="value-label">난정 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>74.1%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +8.9%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>63.2%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-up">▲ +19.8%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.4℃</span>
+                <span>2.1 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.0℃</span>
+                <span>3.5 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.4℃</span>
+                <span>2.9 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.8℃</span>
+                <span>4.9 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">1시간 38분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">76.8 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">0원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-5" class="card spot-card" data-spot-name="예당지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>예당지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-warning">바람 체크</span><span class="status-badge badge-warning">비 영향</span><span class="status-badge badge-warning">중거리 필드</span><span class="status-badge badge-warning">수위 하락</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">26.3℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">4.5 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.8 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>190°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.1 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">63.5%</div>
+                <div class="value-label">예당(대흥) 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>64.7%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-down">▼ -1.2%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>64.6%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -1.1%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.6℃</span>
+                <span>2.4 m/s</span>
+                <span>5.3 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.8℃</span>
+                <span>4.5 m/s</span>
+                <span>0.3 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.9℃</span>
+                <span>3.4 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>28.4℃</span>
+                <span>3.6 m/s</span>
+                <span>0.5 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 22분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">143.9 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">10,000원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-6" class="card spot-card" data-spot-name="대야지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>대야지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.0℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">8.1 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">9.0 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>181°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1005.6 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">81.9%</div>
+                <div class="value-label">대야 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>80.9%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +1.0%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>82.4%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -0.5%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.3℃</span>
+                <span>3.8 m/s</span>
+                <span>4.8 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.5℃</span>
+                <span>5.1 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.9℃</span>
+                <span>4.5 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.7℃</span>
+                <span>4.5 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 44분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">163.7 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">9,700원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-7" class="card spot-card" data-spot-name="중장지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>중장지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.1℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">9.9 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">6.6 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>182°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1005.6 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">76.7%</div>
+                <div class="value-label">중장 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>76.3%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +0.4%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>84.9%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -8.2%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.3℃</span>
+                <span>3.8 m/s</span>
+                <span>4.8 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.5℃</span>
+                <span>5.1 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.9℃</span>
+                <span>4.5 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.7℃</span>
+                <span>4.5 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 49분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">167.2 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">9,700원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-8" class="card spot-card" data-spot-name="대호만">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>대호만</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-warning">중거리 필드</span><span class="status-badge badge-good">수위 상승</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">25.5℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">8.1 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">6.6 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>187°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1005.5 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">92.0%</div>
+                <div class="value-label">대호방조제1(내측) 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>83.5%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-up">▲ +8.5%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>73.4%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-up">▲ +18.6%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:30</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.1℃</span>
+                <span>3.0 m/s</span>
+                <span>3.8 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.1℃</span>
+                <span>4.7 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.6℃</span>
+                <span>3.6 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>28.3℃</span>
+                <span>4.4 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 28분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">147.5 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">9,700원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-9" class="card spot-card" data-spot-name="충주호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>충주호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-warning">중거리 필드</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">28.2℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">3.2 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.0 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>198°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.8 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">MyWater</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">51.1%</div>
+                <div class="value-label">충주댐 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>현재수위</span>
+                    <b>130.1008 EL.m</b>
+                </div>
+                <div class="data-row">
+                    <span>저수량</span>
+                    <b>1405.6206</b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 202607211040</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.1℃</span>
+                <span>1.0 m/s</span>
+                <span>0.7 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.8℃</span>
+                <span>2.9 m/s</span>
+                <span>3.5 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.2℃</span>
+                <span>3.1 m/s</span>
+                <span>0.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.0℃</span>
+                <span>3.1 m/s</span>
+                <span>1.7 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 19분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">155.2 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">8,200원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-10" class="card spot-card" data-spot-name="대청호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>대청호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-danger">원정 필드</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">29.0℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">2.6 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.0 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>201°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.8 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">MyWater</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">60.6%</div>
+                <div class="value-label">대청댐 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>현재수위</span>
+                    <b>71.6504 EL.m</b>
+                </div>
+                <div class="data-row">
+                    <span>저수량</span>
+                    <b>902.3238</b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 202607211040</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.1℃</span>
+                <span>2.5 m/s</span>
+                <span>0.6 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.4℃</span>
+                <span>3.8 m/s</span>
+                <span>1.6 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.0℃</span>
+                <span>2.2 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.8℃</span>
+                <span>3.4 m/s</span>
+                <span>1.2 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 49분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">198.2 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">11,600원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-11" class="card spot-card" data-spot-name="파로호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>파로호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-warning">비 영향</span><span class="status-badge badge-danger">원정 필드</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">24.6℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">1.9 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">1.9 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>183°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.2 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">HRFCO</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">60.900%</div>
+                <div class="value-label">화천댐 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>현재수위</span>
+                    <b>169.750 EL.m</b>
+                </div>
+                <div class="data-row">
+                    <span>저수량</span>
+                    <b>598.890</b>
+                </div>
+                <div class="data-row">
+                    <span>유입량</span>
+                    <b>0.000</b>
+                </div>
+                <div class="data-row">
+                    <span>방류량</span>
+                    <b>없음</b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:10</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.8℃</span>
+                <span>1.7 m/s</span>
+                <span>0.3 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.1℃</span>
+                <span>2.6 m/s</span>
+                <span>1.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.0℃</span>
+                <span>0.2 m/s</span>
+                <span>2.3 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.8℃</span>
+                <span>2.5 m/s</span>
+                <span>2.3 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 34분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">162.4 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">8,100원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-12" class="card spot-card" data-spot-name="소양호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>소양호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-warning">중거리 필드</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">23.7℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">2.4 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">4.5 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>189°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.2 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">MyWater</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">60.5%</div>
+                <div class="value-label">소양강댐 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>현재수위</span>
+                    <b>181.3324 EL.m</b>
+                </div>
+                <div class="data-row">
+                    <span>저수량</span>
+                    <b>1753.2974</b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 202607211040</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>22.7℃</span>
+                <span>2.8 m/s</span>
+                <span>0.6 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.3℃</span>
+                <span>2.5 m/s</span>
+                <span>0.3 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>22.5℃</span>
+                <span>1.0 m/s</span>
+                <span>1.0 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.2℃</span>
+                <span>2.9 m/s</span>
+                <span>1.6 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 1분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">129.1 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">8,100원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-13" class="card spot-card" data-spot-name="춘천호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>춘천호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-danger">비 강함</span><span class="status-badge badge-warning">중거리 필드</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">24.7℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">2.6 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">6.7 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>189°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1006.1 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">HRFCO</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">64.700%</div>
+                <div class="value-label">춘천댐 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>현재수위</span>
+                    <b>100.680 EL.m</b>
+                </div>
+                <div class="data-row">
+                    <span>저수량</span>
+                    <b>108.730</b>
+                </div>
+                <div class="data-row">
+                    <span>유입량</span>
+                    <b>174.860</b>
+                </div>
+                <div class="data-row">
+                    <span>방류량</span>
+                    <b>없음</b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:10</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.4℃</span>
+                <span>2.1 m/s</span>
+                <span>0.8 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.0℃</span>
+                <span>2.4 m/s</span>
+                <span>0.5 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>23.6℃</span>
+                <span>0.2 m/s</span>
+                <span>1.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.8℃</span>
+                <span>2.6 m/s</span>
+                <span>2.4 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">2시간 1분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">108.5 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">3,200원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-14" class="card spot-card" data-spot-name="장성호">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>장성호</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-good">바람 좋음</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-muted">수위 보합</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">27.9℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">3.6 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.0 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>190°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1007.3 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">39.1%</div>
+                <div class="value-label">장성호 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>39.1%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-flat">변화 없음</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>62.2%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -23.1%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:40</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.8℃</span>
+                <span>2.6 m/s</span>
+                <span>0.1 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.1℃</span>
+                <span>2.0 m/s</span>
+                <span>2.8 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>24.6℃</span>
+                <span>1.6 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>28.3℃</span>
+                <span>2.9 m/s</span>
+                <span>1.1 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">4시간 4분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">300.5 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">18,800원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+        <div id="spot-15" class="card spot-card" data-spot-name="옥실지">
+            <div class="field-header">
+                <div>
+                    <div class="field-label">FIELD REPORT</div>
+                    <h2>옥실지</h2>
+                    <div class="status-badges">
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-warning">수위 하락</span>
+                    </div>
+                </div>
+                <div class="field-time">2026-07-21T10:00</div>
+            </div>
+
+            <div class="grid">
+                <div class="weather-box">
+                    <div class="box-top">
+                        <div class="section-title">날씨 정보</div>
+                        <span class="source-badge weather-source">Open-Meteo</span>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">27.7℃</div>
+                            <div class="metric-label">기온</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">8.2 m/s</div>
+                            <div class="metric-label">풍속</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-value">0.0 mm</div>
+                            <div class="metric-label">강수량</div>
+                        </div>
+                    </div>
+
+                    <div class="data-list">
+                        <div class="data-row">
+                            <span>풍향</span>
+                            <b>178°</b>
+                        </div>
+                        <div class="data-row">
+                            <span>기압</span>
+                            <b>1007.4 hPa</b>
+                        </div>
+                    </div>
+                </div>
+
+                
+        <div class="water-box">
+            <div class="box-top">
+                <div class="section-title">수위 정보</div>
+                <span class="source-badge">RAWRIS</span>
+            </div>
+
+            <div class="main-value">
+                <div class="value-number">35.6%</div>
+                <div class="value-label">옥실 금일 저수율</div>
+            </div>
+
+            <div class="data-list">
+                <div class="data-row">
+                    <span>전일 저수율</span>
+                    <b>36.8%</b>
+                </div>
+                <div class="data-row">
+                    <span>전일 대비</span>
+                    <b><span class="diff-down">▼ -1.2%</span></b>
+                </div>
+                <div class="data-row">
+                    <span>평년 저수율</span>
+                    <b>72.0%</b>
+                </div>
+                <div class="data-row">
+                    <span>평년 대비</span>
+                    <b><span class="diff-down">▼ -36.4%</span></b>
+                </div>
+            </div>
+
+            <div class="small">측정시각: 2026-07-21 10:41</div>
+        </div>
+        
+            </div>
+            
+    <div class="weekend-box">
+        <div class="box-top">
+            <div class="section-title">주말 예보</div>
+            <span class="source-badge weather-source">Weekend</span>
+        </div>
+
+        <div class="weekend-list">
+            
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오전</div>
+                <div class="weekend-date">07/25 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>26.3℃</span>
+                <span>4.6 m/s</span>
+                <span>1.9 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">토 오후</div>
+                <div class="weekend-date">07/25 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.5℃</span>
+                <span>3.6 m/s</span>
+                <span>4.7 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오전</div>
+                <div class="weekend-date">07/26 07:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>25.0℃</span>
+                <span>2.8 m/s</span>
+                <span>0.2 mm</span>
+            </div>
+        </div>
+        
+        <div class="weekend-row">
+            <div>
+                <div class="weekend-label">일 오후</div>
+                <div class="weekend-date">07/26 13:00</div>
+            </div>
+            <div class="weekend-metrics">
+                <span>27.7℃</span>
+                <span>4.6 m/s</span>
+                <span>0.3 mm</span>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+    
+
+            
+    <div class="route-box">
+        <div class="box-top">
+            <div class="section-title">이동 정보</div>
+            <span class="source-badge route-source">Kakao Navi</span>
+        </div>
+
+        <div class="route-grid">
+            <div class="route-item">
+                <div class="route-value">4시간 30분</div>
+                <div class="route-label">예상시간</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">332.1 km</div>
+                <div class="route-label">거리</div>
+            </div>
+
+            <div class="route-item">
+                <div class="route-value">17,800원</div>
+                <div class="route-label">통행료</div>
+            </div>
+        </div>
+
+        <div class="small">출발지: 고양시 덕양구 관산동 기준 / 기준: 네비추천</div>
+    </div>
+    
+        </div>
+        
+
+<script>
+function filterSpots() {
+    const input = document.getElementById("spotSearch");
+    const query = input.value.trim().toLowerCase();
+    const cards = document.querySelectorAll(".spot-card");
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const name = (card.dataset.spotName || "").toLowerCase();
+
+        if (query === "" || name.includes(query)) {
+            card.style.display = "";
+            visibleCount += 1;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    const countText = query === ""
+        ? "전체 필드 표시 중"
+        : visibleCount + "곳 검색됨";
+
+    document.getElementById("searchCount").textContent = countText;
+}
+
+function clearSearch() {
+    const input = document.getElementById("spotSearch");
+    input.value = "";
+    filterSpots();
+}
+</script>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sideNav = document.getElementById("sideNav");
+    const sideToggle = document.getElementById("sideToggle");
+    const sideInput = document.getElementById("sideSpotSearch");
+    const sideClear = document.getElementById("sideClearSearch");
+    const sideCount = document.getElementById("sideVisibleCount");
+
+    const cards = Array.from(document.querySelectorAll(".spot-card"));
+    const links = Array.from(document.querySelectorAll(".field-link"));
+    const groups = Array.from(document.querySelectorAll(".field-group"));
+
+    let isComposing = false;
+
+    function setSideCollapsed(isCollapsed) {
+        if (!sideNav || !sideToggle) {
+            return;
+        }
+
+        sideNav.classList.toggle("collapsed", isCollapsed);
+        sideToggle.textContent = isCollapsed ? "☰" : "◀";
+        sideToggle.title = isCollapsed ? "필드 메뉴 펼치기" : "필드 메뉴 접기";
+    }
+
+    function updateSideFilter() {
+        const keyword = (sideInput ? sideInput.value.trim().toLowerCase() : "");
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const name = (card.dataset.spotName || "").toLowerCase();
+            const isVisible = keyword === "" || name.includes(keyword);
+
+            card.style.display = isVisible ? "" : "none";
+
+            if (isVisible) {
+                visibleCount += 1;
+            }
+        });
+
+        links.forEach(link => {
+            const name = (link.dataset.spotName || "").toLowerCase();
+            const isVisible = keyword === "" || name.includes(keyword);
+
+            link.style.display = isVisible ? "" : "none";
+        });
+
+        groups.forEach(group => {
+            const groupLinks = Array.from(group.querySelectorAll(".field-link"));
+            const visibleLinks = groupLinks.filter(link => link.style.display !== "none");
+
+            group.style.display = visibleLinks.length > 0 ? "" : "none";
+        });
+
+        if (sideCount) {
+            sideCount.textContent = keyword === "" ? "전체 필드" : `${visibleCount}곳 표시 중`;
+        }
+    }
+
+    if (sideToggle) {
+        sideToggle.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isCollapsed = sideNav.classList.contains("collapsed");
+            setSideCollapsed(!isCollapsed);
+        });
+    }
+
+    if (sideInput) {
+        sideInput.addEventListener("focus", () => {
+            setSideCollapsed(false);
+        });
+
+        sideInput.addEventListener("compositionstart", () => {
+            isComposing = true;
+        });
+
+        sideInput.addEventListener("compositionend", () => {
+            isComposing = false;
+            updateSideFilter();
+        });
+
+        sideInput.addEventListener("input", () => {
+            if (isComposing) {
+                return;
+            }
+
+            updateSideFilter();
+        });
+    }
+
+    if (sideClear) {
+        sideClear.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (sideInput) {
+                sideInput.value = "";
+            }
+
+            updateSideFilter();
+            setSideCollapsed(false);
+
+            if (sideInput) {
+                sideInput.focus();
+            }
+        });
+    }
+
+    links.forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+
+            const target = document.querySelector(link.getAttribute("href"));
+
+            if (!target) {
+                return;
+            }
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            target.classList.add("focus-pulse");
+
+            setTimeout(() => {
+                target.classList.remove("focus-pulse");
+            }, 1200);
+
+            setSideCollapsed(true);
+        });
+    });
+
+    setSideCollapsed(false);
+    updateSideFilter();
+});
+</script>
+
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const mapEl = document.getElementById("realFieldMap");
+
+    if (!mapEl || typeof L === "undefined") {
+        return;
+    }
+
+    const markers = [{"name": "고삼지", "spot_id": "spot-1", "region_group": "경기 안성", "lat": 37.08, "lon": 127.27}, {"name": "금광지", "spot_id": "spot-2", "region_group": "경기 안성", "lat": 37.01, "lon": 127.32}, {"name": "길정지", "spot_id": "spot-3", "region_group": "경기 강화", "lat": 37.65, "lon": 126.45}, {"name": "난정지", "spot_id": "spot-4", "region_group": "경기 강화", "lat": 37.7768235, "lon": 126.2302932}, {"name": "예당지", "spot_id": "spot-5", "region_group": "충남 예산", "lat": 36.682, "lon": 126.817}, {"name": "대야지", "spot_id": "spot-6", "region_group": "충남 태안", "lat": 36.75, "lon": 126.25}, {"name": "중장지", "spot_id": "spot-7", "region_group": "충남 태안", "lat": 36.72, "lon": 126.23}, {"name": "대호만", "spot_id": "spot-8", "region_group": "충남 서산/태안", "lat": 36.9, "lon": 126.45}, {"name": "충주호", "spot_id": "spot-9", "region_group": "충북 충주/제천", "lat": 37.0, "lon": 128.0}, {"name": "대청호", "spot_id": "spot-10", "region_group": "충북 옥천/대전권", "lat": 36.37, "lon": 127.48}, {"name": "파로호", "spot_id": "spot-11", "region_group": "강원 화천", "lat": 38.1305764, "lon": 127.9831513}, {"name": "소양호", "spot_id": "spot-12", "region_group": "강원 춘천", "lat": 37.9475305, "lon": 127.8132009}, {"name": "춘천호", "spot_id": "spot-13", "region_group": "강원 춘천", "lat": 37.8950062, "lon": 127.7062228}, {"name": "장성호", "spot_id": "spot-14", "region_group": "전남 장성", "lat": 35.4077688, "lon": 126.8424232}, {"name": "옥실지", "spot_id": "spot-15", "region_group": "전남 영광", "lat": 35.1746319, "lon": 126.3837359}];
+
+    if (!markers.length) {
+        return;
+    }
+
+    const map = L.map("realFieldMap", {
+        zoomControl: true,
+        scrollWheelZoom: true
+    }).setView([36.7, 127.8], 7);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap"
+    }).addTo(map);
+
+    const bounds = [];
+
+    markers.forEach(item => {
+        const marker = L.marker([item.lat, item.lon]).addTo(map);
+
+        const popupHtml = `
+            <div class="map-popup-title">${item.name}</div>
+            <div class="map-popup-region">${item.region_group || ""}</div>
+            <button class="map-popup-button" data-target="#${item.spot_id}">
+                리포트 보기
+            </button>
+        `;
+
+        marker.bindPopup(popupHtml);
+        bounds.push([item.lat, item.lon]);
+
+        marker.on("click", () => {
+            setTimeout(() => {
+                const popupButton = document.querySelector(".map-popup-button");
+
+                if (!popupButton) {
+                    return;
+                }
+
+                popupButton.addEventListener("click", event => {
+                    event.preventDefault();
+
+                    const target = document.querySelector(popupButton.dataset.target);
+
+                    if (!target) {
+                        return;
+                    }
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                    target.classList.add("focus-pulse");
+
+                    setTimeout(() => {
+                        target.classList.remove("focus-pulse");
+                    }, 1200);
+                });
+            }, 50);
+        });
+    });
+
+    if (bounds.length > 1) {
+        map.fitBounds(bounds, {
+            padding: [24, 24]
+        });
+    }
+});
+</script>
+</body>
+</html>
