@@ -1024,6 +1024,259 @@ body::before {
 }
 
 /* 오른쪽 실제 지도 패널 */
+/* Mobile readability tuning for CAST:ON WebView */
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        font-size: 16px;
+        line-height: 1.55;
+        padding: 16px 12px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .title-box {
+        padding: 30px 24px;
+        margin-bottom: 22px;
+    }
+
+    .title-box h1 {
+        font-size: 34px;
+        line-height: 1.12;
+    }
+
+    .title-box p {
+        font-size: 14px;
+        line-height: 1.45;
+    }
+
+    .summary-grid {
+        gap: 18px;
+        margin-bottom: 26px;
+    }
+
+    .summary-card {
+        padding: 24px 22px;
+        min-height: 104px;
+    }
+
+    .summary-label {
+        font-size: 14px;
+    }
+
+    .summary-value {
+        font-size: 34px;
+        line-height: 1.08;
+    }
+
+    .summary-value.small-value {
+        font-size: 24px;
+        line-height: 1.25;
+    }
+
+    .summary-desc {
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    .card {
+        padding: 24px;
+        margin-bottom: 28px;
+        border-radius: 26px;
+    }
+
+    .card::before {
+        left: 24px;
+        right: 24px;
+    }
+
+    .field-header {
+        margin: -24px -24px 24px -24px;
+        padding: 26px 24px 24px 24px;
+        gap: 14px;
+        flex-direction: column;
+    }
+
+    .field-header h2 {
+        font-size: 32px;
+        line-height: 1.12;
+    }
+
+    .field-time {
+        font-size: 13px;
+        line-height: 1.35;
+        white-space: normal;
+    }
+
+    .status-badges {
+        gap: 8px;
+    }
+
+    .status-badge {
+        min-height: 34px;
+        padding: 8px 11px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .weather-box,
+    .water-box,
+    .weekend-box,
+    .route-box {
+        padding: 22px;
+        border-radius: 24px;
+        min-height: auto;
+    }
+
+    .box-top {
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        line-height: 1.25;
+    }
+
+    .source-badge {
+        min-height: 34px;
+        padding: 8px 12px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .metric-grid {
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .metric-card {
+        min-height: 86px;
+        padding: 18px 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .metric-value {
+        font-size: 25px;
+        line-height: 1.12;
+        word-break: keep-all;
+    }
+
+    .metric-label {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .main-value {
+        padding: 24px;
+        margin-bottom: 18px;
+    }
+
+    .value-number {
+        font-size: 44px;
+        line-height: 1.06;
+    }
+
+    .value-label {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .data-list {
+        gap: 10px;
+    }
+
+    .data-row {
+        gap: 14px;
+        padding: 11px 0;
+        font-size: 15px;
+        line-height: 1.45;
+    }
+
+    .small,
+    .empty-text {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .weekend-list {
+        gap: 14px;
+    }
+
+    .weekend-row {
+        padding: 18px 16px;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .weekend-label {
+        font-size: 17px;
+        line-height: 1.25;
+    }
+
+    .weekend-date {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .weekend-metrics {
+        font-size: 15px;
+        line-height: 1.4;
+        gap: 5px;
+        min-width: 82px;
+    }
+
+    .route-grid {
+        gap: 14px;
+    }
+
+    .route-item {
+        min-height: 88px;
+        padding: 18px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .route-value {
+        font-size: 25px;
+        line-height: 1.16;
+    }
+
+    .route-label {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .field-link {
+        min-height: 44px;
+        padding: 13px 14px;
+        font-size: 15px;
+        line-height: 1.25;
+        display: flex;
+        align-items: center;
+    }
+
+    .side-toggle {
+        min-width: 44px;
+        min-height: 44px;
+    }
 .field-map {
     position: fixed;
     right: 28px;
@@ -1296,7 +1549,7 @@ body::before {
         <div>
             <div class="title-kicker">BASS FISHING DASHBOARD</div>
             <h1>🎣 CAST:ON</h1>
-            <p>생성 시각: 2026-07-23 13:35</p>
+            <p>생성 시각: 2026-07-23 13:41</p>
         </div>
         <div class="title-badge">FIELD REPORT</div>
     </div>
@@ -1422,7 +1675,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:20</div>
+            <div class="small">측정시각: 2026-07-23 13:30</div>
         </div>
         
             </div>
@@ -1595,7 +1848,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:20</div>
+            <div class="small">측정시각: 2026-07-23 13:30</div>
         </div>
         
             </div>
@@ -2015,7 +2268,7 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">1시간 39분</div>
+                <div class="route-value">1시간 38분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
@@ -2091,7 +2344,7 @@ body::before {
             </div>
 
             <div class="main-value">
-                <div class="value-number">63.2%</div>
+                <div class="value-number">63.0%</div>
                 <div class="value-label">예당(대흥) 금일 저수율</div>
             </div>
 
@@ -2102,7 +2355,7 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>전일 대비</span>
-                    <b><span class="diff-up">▲ +3.0%</span></b>
+                    <b><span class="diff-up">▲ +2.8%</span></b>
                 </div>
                 <div class="data-row">
                     <span>평년 저수율</span>
@@ -2110,11 +2363,11 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>평년 대비</span>
-                    <b><span class="diff-down">▼ -2.2%</span></b>
+                    <b><span class="diff-down">▼ -2.4%</span></b>
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:20</div>
+            <div class="small">측정시각: 2026-07-23 13:30</div>
         </div>
         
             </div>
@@ -2188,7 +2441,7 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">1시간 58분</div>
+                <div class="route-value">2시간 0분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
@@ -2264,7 +2517,7 @@ body::before {
             </div>
 
             <div class="main-value">
-                <div class="value-number">80.5%</div>
+                <div class="value-number">80.3%</div>
                 <div class="value-label">대야 금일 저수율</div>
             </div>
 
@@ -2275,7 +2528,7 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>전일 대비</span>
-                    <b><span class="diff-down">▼ -1.7%</span></b>
+                    <b><span class="diff-down">▼ -1.9%</span></b>
                 </div>
                 <div class="data-row">
                     <span>평년 저수율</span>
@@ -2283,11 +2536,11 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>평년 대비</span>
-                    <b><span class="diff-down">▼ -1.3%</span></b>
+                    <b><span class="diff-down">▼ -1.5%</span></b>
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:20</div>
+            <div class="small">측정시각: 2026-07-23 13:30</div>
         </div>
         
             </div>
@@ -2361,17 +2614,17 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">2시간 27분</div>
+                <div class="route-value">2시간 28분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">167.2 km</div>
+                <div class="route-value">164.0 km</div>
                 <div class="route-label">거리</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">6,900원</div>
+                <div class="route-value">7,900원</div>
                 <div class="route-label">통행료</div>
             </div>
         </div>
@@ -2387,7 +2640,7 @@ body::before {
                     <div class="field-label">FIELD REPORT</div>
                     <h2>중장지</h2>
                     <div class="status-badges">
-                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-warning">수위 하락</span>
+                        <span class="status-badge badge-danger">강풍 주의</span><span class="status-badge badge-good">비 없음</span><span class="status-badge badge-danger">원정 필드</span><span class="status-badge badge-muted">수위 보합</span>
                     </div>
                 </div>
                 <div class="field-time">2026-07-23T13:00</div>
@@ -2437,7 +2690,7 @@ body::before {
             </div>
 
             <div class="main-value">
-                <div class="value-number">76.7%</div>
+                <div class="value-number">76.9%</div>
                 <div class="value-label">중장 금일 저수율</div>
             </div>
 
@@ -2448,7 +2701,7 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>전일 대비</span>
-                    <b><span class="diff-down">▼ -0.2%</span></b>
+                    <b><span class="diff-flat">변화 없음</span></b>
                 </div>
                 <div class="data-row">
                     <span>평년 저수율</span>
@@ -2456,11 +2709,11 @@ body::before {
                 </div>
                 <div class="data-row">
                     <span>평년 대비</span>
-                    <b><span class="diff-down">▼ -8.1%</span></b>
+                    <b><span class="diff-down">▼ -7.9%</span></b>
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:20</div>
+            <div class="small">측정시각: 2026-07-23 13:30</div>
         </div>
         
             </div>
@@ -2534,17 +2787,17 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">2시간 31분</div>
+                <div class="route-value">2시간 33분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">170.8 km</div>
+                <div class="route-value">167.5 km</div>
                 <div class="route-label">거리</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">6,900원</div>
+                <div class="route-value">7,900원</div>
                 <div class="route-label">통행료</div>
             </div>
         </div>
@@ -2707,17 +2960,17 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">2시간 11분</div>
+                <div class="route-value">2시간 12분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">151.1 km</div>
+                <div class="route-value">147.8 km</div>
                 <div class="route-label">거리</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">6,900원</div>
+                <div class="route-value">7,900원</div>
                 <div class="route-label">통행료</div>
             </div>
         </div>
@@ -3037,7 +3290,7 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">2시간 36분</div>
+                <div class="route-value">2시간 37분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
@@ -3113,22 +3366,22 @@ body::before {
             </div>
 
             <div class="main-value">
-                <div class="value-number">68.200%</div>
+                <div class="value-number">68.300%</div>
                 <div class="value-label">화천댐 저수율</div>
             </div>
 
             <div class="data-list">
                 <div class="data-row">
                     <span>현재수위</span>
-                    <b>172.600 EL.m</b>
+                    <b>172.630 EL.m</b>
                 </div>
                 <div class="data-row">
                     <span>저수량</span>
-                    <b>670.820</b>
+                    <b>671.610</b>
                 </div>
                 <div class="data-row">
                     <span>유입량</span>
-                    <b>963.410</b>
+                    <b>1402.010</b>
                 </div>
                 <div class="data-row">
                     <span>방류량</span>
@@ -3136,7 +3389,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:00</div>
+            <div class="small">측정시각: 2026-07-23 13:10</div>
         </div>
         
             </div>
@@ -3210,7 +3463,7 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">2시간 25분</div>
+                <div class="route-value">2시간 24분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
@@ -3451,22 +3704,22 @@ body::before {
             </div>
 
             <div class="main-value">
-                <div class="value-number">70.300%</div>
+                <div class="value-number">70.400%</div>
                 <div class="value-label">춘천댐 저수율</div>
             </div>
 
             <div class="data-list">
                 <div class="data-row">
                     <span>현재수위</span>
-                    <b>101.450 EL.m</b>
+                    <b>101.460 EL.m</b>
                 </div>
                 <div class="data-row">
                     <span>저수량</span>
-                    <b>118.280</b>
+                    <b>118.410</b>
                 </div>
                 <div class="data-row">
                     <span>유입량</span>
-                    <b>674.980</b>
+                    <b>462.340</b>
                 </div>
                 <div class="data-row">
                     <span>방류량</span>
@@ -3474,7 +3727,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:00</div>
+            <div class="small">측정시각: 2026-07-23 13:10</div>
         </div>
         
             </div>
@@ -3548,7 +3801,7 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">1시간 50분</div>
+                <div class="route-value">1시간 49분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
@@ -3647,7 +3900,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:30</div>
+            <div class="small">측정시각: 2026-07-23 13:40</div>
         </div>
         
             </div>
@@ -3721,17 +3974,17 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">3시간 46분</div>
+                <div class="route-value">3시간 47분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">313.0 km</div>
+                <div class="route-value">309.7 km</div>
                 <div class="route-label">거리</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">16,300원</div>
+                <div class="route-value">17,300원</div>
                 <div class="route-label">통행료</div>
             </div>
         </div>
@@ -3820,7 +4073,7 @@ body::before {
                 </div>
             </div>
 
-            <div class="small">측정시각: 2026-07-23 13:31</div>
+            <div class="small">측정시각: 2026-07-23 13:41</div>
         </div>
         
             </div>
@@ -3894,17 +4147,17 @@ body::before {
 
         <div class="route-grid">
             <div class="route-item">
-                <div class="route-value">4시간 7분</div>
+                <div class="route-value">4시간 8분</div>
                 <div class="route-label">예상시간</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">331.8 km</div>
+                <div class="route-value">328.5 km</div>
                 <div class="route-label">거리</div>
             </div>
 
             <div class="route-item">
-                <div class="route-value">16,800원</div>
+                <div class="route-value">17,800원</div>
                 <div class="route-label">통행료</div>
             </div>
         </div>
