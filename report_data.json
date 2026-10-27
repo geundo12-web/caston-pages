@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27 09:00",
+  "generated_at": "2026-10-27 09:30",
   "app_name": "CAST:ON",
   "subtitle": "필드를 확인하고,\n캐스팅을 시작하다.\n\n날씨, 바람, 기압, 강수와 수위.\n출조 전 필요한 필드 데이터를 한눈에.",
   "spots": [
@@ -11,20 +11,85 @@
       "lon": 127.27,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 11.2,
+        "temperature": 10.9,
         "precipitation": 0.0,
-        "wind_speed": 13.6,
-        "wind_direction": 320,
-        "pressure": 1021.9
+        "wind_speed": 14.7,
+        "wind_direction": 324,
+        "pressure": 1021.7
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 7.6,
+          "temperature": 8.5,
           "precipitation": 0.0,
-          "wind_speed_ms": 1.6
+          "wind_speed_ms": 1.0
+        },
+        {
+          "label": "토 오후",
+          "date": "10/31",
+          "hour": 13,
+          "temperature": 16.1,
+          "precipitation": 0.0,
+          "wind_speed_ms": 3.5
+        },
+        {
+          "label": "일 오전",
+          "date": "11/01",
+          "hour": 7,
+          "temperature": 8.2,
+          "precipitation": 0.4,
+          "wind_speed_ms": 2.6
+        },
+        {
+          "label": "일 오후",
+          "date": "11/01",
+          "hour": 13,
+          "temperature": 10.0,
+          "precipitation": 0.2,
+          "wind_speed_ms": 2.2
+        }
+      ],
+      "water": {
+        "source": "rawris",
+        "name": "고삼",
+        "today_rate": "85.6",
+        "yesterday_rate": "85.3",
+        "normal_rate": "82.6",
+        "updated_at": "2026-10-27 09:20"
+      },
+      "route": {
+        "success": true,
+        "start_name": "고양시 덕양구 관산동 기준",
+        "distance": 106972,
+        "duration": 7918,
+        "toll": 7600,
+        "priority": "RECOMMEND"
+      }
+    },
+    {
+      "name": "금광지",
+      "spot_id": "spot-2",
+      "region_group": "경기 안성",
+      "lat": 37.01,
+      "lon": 127.32,
+      "weather": {
+        "time": "2026-10-27T09:00",
+        "temperature": 10.7,
+        "precipitation": 0.0,
+        "wind_speed": 15.0,
+        "wind_direction": 316,
+        "pressure": 1021.8
+      },
+      "weekend_weather": [
+        {
+          "label": "토 오전",
+          "date": "10/31",
+          "hour": 7,
+          "temperature": 8.4,
+          "precipitation": 0.0,
+          "wind_speed_ms": 0.6
         },
         {
           "label": "토 오후",
@@ -38,82 +103,17 @@
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 8.0,
-          "precipitation": 0.6,
-          "wind_speed_ms": 1.8
-        },
-        {
-          "label": "일 오후",
-          "date": "11/01",
-          "hour": 13,
-          "temperature": 10.4,
-          "precipitation": 0.1,
-          "wind_speed_ms": 3.2
-        }
-      ],
-      "water": {
-        "source": "rawris",
-        "name": "고삼",
-        "today_rate": "85.6",
-        "yesterday_rate": "85.3",
-        "normal_rate": "82.6",
-        "updated_at": "2026-10-27 08:50"
-      },
-      "route": {
-        "success": true,
-        "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 106972,
-        "duration": 7635,
-        "toll": 7600,
-        "priority": "RECOMMEND"
-      }
-    },
-    {
-      "name": "금광지",
-      "spot_id": "spot-2",
-      "region_group": "경기 안성",
-      "lat": 37.01,
-      "lon": 127.32,
-      "weather": {
-        "time": "2026-10-27T09:00",
-        "temperature": 11.0,
-        "precipitation": 0.0,
-        "wind_speed": 13.3,
-        "wind_direction": 311,
-        "pressure": 1022.0
-      },
-      "weekend_weather": [
-        {
-          "label": "토 오전",
-          "date": "10/31",
-          "hour": 7,
           "temperature": 7.7,
-          "precipitation": 0.0,
-          "wind_speed_ms": 0.9
-        },
-        {
-          "label": "토 오후",
-          "date": "10/31",
-          "hour": 13,
-          "temperature": 15.5,
-          "precipitation": 0.0,
-          "wind_speed_ms": 3.6
-        },
-        {
-          "label": "일 오전",
-          "date": "11/01",
-          "hour": 7,
-          "temperature": 7.5,
-          "precipitation": 0.7,
-          "wind_speed_ms": 1.6
+          "precipitation": 0.4,
+          "wind_speed_ms": 1.9
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 10.2,
-          "precipitation": 0.1,
-          "wind_speed_ms": 3.0
+          "temperature": 9.7,
+          "precipitation": 0.2,
+          "wind_speed_ms": 1.7
         }
       ],
       "water": {
@@ -122,13 +122,13 @@
         "today_rate": "71.0",
         "yesterday_rate": "71.0",
         "normal_rate": "69.6",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 109016,
-        "duration": 6804,
+        "duration": 6910,
         "toll": 8400,
         "priority": "RECOMMEND"
       }
@@ -141,10 +141,10 @@
       "lon": 126.45,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 11.7,
+        "temperature": 11.2,
         "precipitation": 0.0,
-        "wind_speed": 9.5,
-        "wind_direction": 323,
+        "wind_speed": 12.1,
+        "wind_direction": 333,
         "pressure": 1022.2
       },
       "weekend_weather": [
@@ -152,33 +152,33 @@
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 8.5,
+          "temperature": 8.8,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.5
+          "wind_speed_ms": 3.3
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 14.3,
+          "temperature": 14.7,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.0
+          "wind_speed_ms": 3.2
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 10.2,
-          "precipitation": 0.2,
-          "wind_speed_ms": 3.7
+          "temperature": 8.6,
+          "precipitation": 0.5,
+          "wind_speed_ms": 2.5
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 11.6,
+          "temperature": 10.2,
           "precipitation": 0.2,
-          "wind_speed_ms": 4.5
+          "wind_speed_ms": 4.7
         }
       ],
       "water": {
@@ -187,13 +187,13 @@
         "today_rate": "55.4",
         "yesterday_rate": "55.4",
         "normal_rate": "82.2",
-        "updated_at": "2026-10-27 09:00"
+        "updated_at": "2026-10-27 09:30"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 55026,
-        "duration": 4529,
+        "distance": 56248,
+        "duration": 4864,
         "toll": 0,
         "priority": "RECOMMEND"
       }
@@ -206,10 +206,10 @@
       "lon": 126.2302932,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 11.2,
+        "temperature": 10.7,
         "precipitation": 0.0,
-        "wind_speed": 12.5,
-        "wind_direction": 309,
+        "wind_speed": 16.5,
+        "wind_direction": 328,
         "pressure": 1022.2
       },
       "weekend_weather": [
@@ -217,33 +217,33 @@
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 8.2,
+          "temperature": 8.4,
           "precipitation": 0.0,
-          "wind_speed_ms": 4.2
+          "wind_speed_ms": 3.6
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 14.3,
+          "temperature": 14.6,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.2
+          "wind_speed_ms": 3.7
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 11.2,
-          "precipitation": 0.3,
-          "wind_speed_ms": 3.4
+          "temperature": 9.4,
+          "precipitation": 0.6,
+          "wind_speed_ms": 3.0
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 13.6,
-          "precipitation": 0.4,
-          "wind_speed_ms": 5.5
+          "temperature": 11.8,
+          "precipitation": 0.2,
+          "wind_speed_ms": 6.2
         }
       ],
       "water": {
@@ -252,14 +252,14 @@
         "today_rate": "68.9",
         "yesterday_rate": "68.9",
         "normal_rate": "78.8",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 76806,
-        "duration": 6023,
-        "toll": 0,
+        "distance": 77392,
+        "duration": 6127,
+        "toll": 600,
         "priority": "RECOMMEND"
       }
     },
@@ -271,44 +271,44 @@
       "lon": 126.817,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 13.4,
+        "temperature": 13.3,
         "precipitation": 0.0,
-        "wind_speed": 12.2,
-        "wind_direction": 341,
-        "pressure": 1022.2
+        "wind_speed": 15.5,
+        "wind_direction": 347,
+        "pressure": 1022.0
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 8.9,
+          "temperature": 9.5,
           "precipitation": 0.0,
-          "wind_speed_ms": 2.0
+          "wind_speed_ms": 1.9
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.6,
+          "temperature": 15.9,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.2
+          "wind_speed_ms": 3.3
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 8.8,
-          "precipitation": 0.9,
-          "wind_speed_ms": 2.5
+          "temperature": 8.7,
+          "precipitation": 0.4,
+          "wind_speed_ms": 1.1
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 11.7,
-          "precipitation": 0.0,
-          "wind_speed_ms": 3.3
+          "temperature": 10.1,
+          "precipitation": 0.5,
+          "wind_speed_ms": 2.3
         }
       ],
       "water": {
@@ -317,14 +317,14 @@
         "today_rate": "65.1",
         "yesterday_rate": "64.8",
         "normal_rate": "64.4",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 143863,
-        "duration": 10079,
-        "toll": 10000,
+        "distance": 139964,
+        "duration": 9750,
+        "toll": 11800,
         "priority": "RECOMMEND"
       }
     },
@@ -336,60 +336,60 @@
       "lon": 126.25,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 14.6,
+        "temperature": 14.3,
         "precipitation": 0.0,
-        "wind_speed": 22.5,
-        "wind_direction": 344,
-        "pressure": 1022.5
+        "wind_speed": 24.6,
+        "wind_direction": 349,
+        "pressure": 1022.4
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 11.7,
+          "temperature": 12.0,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.0
+          "wind_speed_ms": 2.9
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.6,
+          "temperature": 15.9,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.4
+          "wind_speed_ms": 3.6
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 10.7,
-          "precipitation": 0.9,
-          "wind_speed_ms": 2.2
+          "temperature": 9.5,
+          "precipitation": 0.6,
+          "wind_speed_ms": 1.7
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 12.9,
-          "precipitation": 0.1,
-          "wind_speed_ms": 5.1
+          "temperature": 11.2,
+          "precipitation": 0.5,
+          "wind_speed_ms": 2.9
         }
       ],
       "water": {
         "source": "rawris",
         "name": "대야",
-        "today_rate": "69.4",
+        "today_rate": "69.6",
         "yesterday_rate": "69.5",
         "normal_rate": "85.1",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 164486,
-        "duration": 11524,
-        "toll": 7900,
+        "distance": 163658,
+        "duration": 11409,
+        "toll": 9700,
         "priority": "RECOMMEND"
       }
     },
@@ -401,60 +401,60 @@
       "lon": 126.23,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 15.0,
+        "temperature": 14.7,
         "precipitation": 0.0,
-        "wind_speed": 26.8,
-        "wind_direction": 345,
-        "pressure": 1022.5
+        "wind_speed": 28.9,
+        "wind_direction": 349,
+        "pressure": 1022.4
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 11.7,
+          "temperature": 12.0,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.0
+          "wind_speed_ms": 2.9
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.6,
+          "temperature": 15.9,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.4
+          "wind_speed_ms": 3.6
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 10.7,
-          "precipitation": 0.9,
-          "wind_speed_ms": 2.2
+          "temperature": 9.5,
+          "precipitation": 0.6,
+          "wind_speed_ms": 1.7
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 12.9,
-          "precipitation": 0.1,
-          "wind_speed_ms": 5.1
+          "temperature": 11.2,
+          "precipitation": 0.5,
+          "wind_speed_ms": 2.9
         }
       ],
       "water": {
         "source": "rawris",
         "name": "중장",
-        "today_rate": "84.5",
+        "today_rate": "84.6",
         "yesterday_rate": "84.7",
         "normal_rate": "86.1",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 168002,
-        "duration": 11746,
-        "toll": 7900,
+        "distance": 167174,
+        "duration": 11613,
+        "toll": 9700,
         "priority": "RECOMMEND"
       }
     },
@@ -466,26 +466,26 @@
       "lon": 126.45,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 15.1,
+        "temperature": 14.7,
         "precipitation": 0.0,
-        "wind_speed": 27.3,
-        "wind_direction": 342,
-        "pressure": 1022.4
+        "wind_speed": 29.6,
+        "wind_direction": 347,
+        "pressure": 1022.2
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 10.0,
+          "temperature": 10.3,
           "precipitation": 0.0,
-          "wind_speed_ms": 2.6
+          "wind_speed_ms": 2.7
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.1,
+          "temperature": 15.3,
           "precipitation": 0.0,
           "wind_speed_ms": 3.2
         },
@@ -493,33 +493,33 @@
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 8.5,
-          "precipitation": 0.8,
-          "wind_speed_ms": 2.7
+          "temperature": 8.1,
+          "precipitation": 0.6,
+          "wind_speed_ms": 2.0
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 11.6,
-          "precipitation": 0.0,
-          "wind_speed_ms": 4.7
+          "temperature": 10.8,
+          "precipitation": 0.4,
+          "wind_speed_ms": 1.9
         }
       ],
       "water": {
         "source": "rawris",
         "name": "대호방조제1(내측)",
-        "today_rate": "66.6",
+        "today_rate": "65.8",
         "yesterday_rate": "67.0",
         "normal_rate": "73.6",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 148371,
-        "duration": 10565,
-        "toll": 7900,
+        "distance": 147543,
+        "duration": 10448,
+        "toll": 9700,
         "priority": "RECOMMEND"
       }
     },
@@ -531,11 +531,11 @@
       "lon": 128.0,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 10.8,
+        "temperature": 10.4,
         "precipitation": 0.0,
-        "wind_speed": 11.9,
-        "wind_direction": 299,
-        "pressure": 1021.1
+        "wind_speed": 12.6,
+        "wind_direction": 301,
+        "pressure": 1020.9
       },
       "weekend_weather": [
         {
@@ -544,47 +544,47 @@
           "hour": 7,
           "temperature": 7.8,
           "precipitation": 0.0,
-          "wind_speed_ms": 0.4
+          "wind_speed_ms": 0.5
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.7,
+          "temperature": 15.9,
           "precipitation": 0.0,
-          "wind_speed_ms": 4.4
+          "wind_speed_ms": 4.2
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 7.4,
-          "precipitation": 0.4,
-          "wind_speed_ms": 1.4
+          "temperature": 7.9,
+          "precipitation": 0.2,
+          "wind_speed_ms": 1.8
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 10.3,
-          "precipitation": 0.1,
-          "wind_speed_ms": 0.4
+          "temperature": 9.2,
+          "precipitation": 0.3,
+          "wind_speed_ms": 1.4
         }
       ],
       "water": {
         "source": "water_or_kr",
         "name": "충주댐",
         "storage_rate": 50.8,
-        "current_level": 130.1347,
-        "storage_amount": 1398.007,
-        "updated_at": "202610270850"
+        "current_level": 130.1288,
+        "storage_amount": 1397.6274,
+        "updated_at": "202610270920"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 155378,
-        "duration": 8959,
-        "toll": 8200,
+        "distance": 160612,
+        "duration": 9289,
+        "toll": 7100,
         "priority": "RECOMMEND"
       }
     },
@@ -596,59 +596,59 @@
       "lon": 127.48,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 12.4,
+        "temperature": 12.0,
         "precipitation": 0.0,
-        "wind_speed": 16.8,
-        "wind_direction": 325,
-        "pressure": 1021.9
+        "wind_speed": 17.9,
+        "wind_direction": 326,
+        "pressure": 1021.7
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 9.0,
+          "temperature": 9.6,
           "precipitation": 0.0,
-          "wind_speed_ms": 1.1
+          "wind_speed_ms": 1.2
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 16.1,
+          "temperature": 16.5,
           "precipitation": 0.0,
-          "wind_speed_ms": 2.8
+          "wind_speed_ms": 2.9
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 8.3,
-          "precipitation": 0.8,
-          "wind_speed_ms": 1.1
+          "temperature": 8.5,
+          "precipitation": 0.3,
+          "wind_speed_ms": 1.0
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 11.6,
-          "precipitation": 0.1,
-          "wind_speed_ms": 1.3
+          "temperature": 10.1,
+          "precipitation": 0.7,
+          "wind_speed_ms": 1.7
         }
       ],
       "water": {
         "source": "water_or_kr",
         "name": "대청댐",
         "storage_rate": 61.9,
-        "current_level": 72.0037,
-        "storage_amount": 922.0574,
-        "updated_at": "202610270850"
+        "current_level": 72,
+        "storage_amount": 921.8494,
+        "updated_at": "202610270920"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 198180,
-        "duration": 10627,
+        "duration": 11302,
         "toll": 11600,
         "priority": "RECOMMEND"
       }
@@ -661,10 +661,10 @@
       "lon": 127.9831513,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 9.9,
+        "temperature": 9.6,
         "precipitation": 0.0,
-        "wind_speed": 7.0,
-        "wind_direction": 291,
+        "wind_speed": 7.6,
+        "wind_direction": 301,
         "pressure": 1020.5
       },
       "weekend_weather": [
@@ -672,33 +672,33 @@
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 5.3,
+          "temperature": 5.7,
           "precipitation": 0.0,
-          "wind_speed_ms": 0.1
+          "wind_speed_ms": 0.0
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 14.6,
+          "temperature": 15.0,
           "precipitation": 0.0,
-          "wind_speed_ms": 5.1
+          "wind_speed_ms": 5.2
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 5.7,
-          "precipitation": 0.0,
-          "wind_speed_ms": 0.6
+          "temperature": 6.0,
+          "precipitation": 0.1,
+          "wind_speed_ms": 0.5
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 8.2,
+          "temperature": 7.3,
           "precipitation": 0.4,
-          "wind_speed_ms": 2.4
+          "wind_speed_ms": 0.9
         }
       ],
       "water": {
@@ -707,15 +707,15 @@
         "storage_rate": "63.900",
         "current_level": "170.970",
         "storage_amount": "629.010",
-        "inflow": "40.430",
-        "outflow": "40.430",
-        "updated_at": "2026-10-27 08:30"
+        "inflow": "40.720",
+        "outflow": "40.720",
+        "updated_at": "2026-10-27 09:00"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 162395,
-        "duration": 9484,
+        "duration": 10064,
         "toll": 8100,
         "priority": "RECOMMEND"
       }
@@ -728,18 +728,18 @@
       "lon": 127.8132009,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 10.2,
+        "temperature": 10.0,
         "precipitation": 0.0,
-        "wind_speed": 11.2,
-        "wind_direction": 310,
-        "pressure": 1020.6
+        "wind_speed": 13.0,
+        "wind_direction": 326,
+        "pressure": 1020.5
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 6.2,
+          "temperature": 6.4,
           "precipitation": 0.0,
           "wind_speed_ms": 0.4
         },
@@ -747,40 +747,40 @@
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 13.9,
+          "temperature": 14.3,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.9
+          "wind_speed_ms": 4.0
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 6.8,
-          "precipitation": 0.0,
-          "wind_speed_ms": 0.7
+          "temperature": 7.2,
+          "precipitation": 0.2,
+          "wind_speed_ms": 0.6
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 7.4,
+          "temperature": 7.1,
           "precipitation": 0.4,
-          "wind_speed_ms": 2.3
+          "wind_speed_ms": 1.8
         }
       ],
       "water": {
         "source": "water_or_kr",
         "name": "소양강댐",
         "storage_rate": 62.9,
-        "current_level": 182.7054,
-        "storage_amount": 1822.7572,
-        "updated_at": "202610270850"
+        "current_level": 182.7031,
+        "storage_amount": 1822.6392,
+        "updated_at": "202610270920"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 129101,
-        "duration": 7441,
+        "duration": 7949,
         "toll": 8100,
         "priority": "RECOMMEND"
       }
@@ -793,61 +793,61 @@
       "lon": 127.7062228,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 12.2,
+        "temperature": 12.1,
         "precipitation": 0.0,
-        "wind_speed": 8.5,
-        "wind_direction": 306,
-        "pressure": 1020.6
+        "wind_speed": 12.4,
+        "wind_direction": 330,
+        "pressure": 1020.5
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 6.0,
+          "temperature": 6.2,
           "precipitation": 0.0,
-          "wind_speed_ms": 0.2
+          "wind_speed_ms": 0.1
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 15.7,
+          "temperature": 16.1,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.4
+          "wind_speed_ms": 3.5
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 7.9,
-          "precipitation": 0.0,
-          "wind_speed_ms": 0.3
+          "temperature": 8.2,
+          "precipitation": 0.2,
+          "wind_speed_ms": 0.6
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 9.1,
-          "precipitation": 0.5,
-          "wind_speed_ms": 2.1
+          "temperature": 8.8,
+          "precipitation": 0.4,
+          "wind_speed_ms": 1.6
         }
       ],
       "water": {
         "source": "hrfco",
         "name": "춘천댐",
-        "storage_rate": "80.000",
-        "current_level": "102.660",
-        "storage_amount": "134.460",
-        "inflow": "95.060",
-        "outflow": "95.060",
-        "updated_at": "2026-10-27 08:30"
+        "storage_rate": "79.900",
+        "current_level": "102.650",
+        "storage_amount": "134.320",
+        "inflow": "101.860",
+        "outflow": "101.860",
+        "updated_at": "2026-10-27 09:00"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 114680,
-        "duration": 7212,
+        "duration": 7699,
         "toll": 6400,
         "priority": "RECOMMEND"
       }
@@ -860,26 +860,26 @@
       "lon": 126.8424232,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 14.2,
+        "temperature": 13.9,
         "precipitation": 0.0,
-        "wind_speed": 20.2,
-        "wind_direction": 355,
-        "pressure": 1021.7
+        "wind_speed": 21.3,
+        "wind_direction": 354,
+        "pressure": 1021.5
       },
       "weekend_weather": [
         {
           "label": "토 오전",
           "date": "10/31",
           "hour": 7,
-          "temperature": 11.6,
+          "temperature": 11.8,
           "precipitation": 0.0,
-          "wind_speed_ms": 1.6
+          "wind_speed_ms": 0.5
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 18.2,
+          "temperature": 18.4,
           "precipitation": 0.0,
           "wind_speed_ms": 3.3
         },
@@ -887,33 +887,33 @@
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 9.7,
-          "precipitation": 0.5,
-          "wind_speed_ms": 1.1
+          "temperature": 11.4,
+          "precipitation": 0.0,
+          "wind_speed_ms": 1.0
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 12.5,
-          "precipitation": 1.6,
-          "wind_speed_ms": 2.5
+          "temperature": 14.4,
+          "precipitation": 0.9,
+          "wind_speed_ms": 2.0
         }
       ],
       "water": {
         "source": "rawris",
         "name": "장성호",
-        "today_rate": "26.0",
+        "today_rate": "26.1",
         "yesterday_rate": "26.0",
         "normal_rate": "58.8",
-        "updated_at": "2026-10-27 08:50"
+        "updated_at": "2026-10-27 09:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 301300,
-        "duration": 16189,
-        "toll": 17000,
+        "distance": 300472,
+        "duration": 15936,
+        "toll": 18800,
         "priority": "RECOMMEND"
       }
     },
@@ -925,11 +925,11 @@
       "lon": 126.3837359,
       "weather": {
         "time": "2026-10-27T09:00",
-        "temperature": 16.8,
+        "temperature": 16.5,
         "precipitation": 0.0,
-        "wind_speed": 35.5,
-        "wind_direction": 354,
-        "pressure": 1021.7
+        "wind_speed": 37.8,
+        "wind_direction": 352,
+        "pressure": 1021.6
       },
       "weekend_weather": [
         {
@@ -938,31 +938,31 @@
           "hour": 7,
           "temperature": 15.2,
           "precipitation": 0.0,
-          "wind_speed_ms": 3.3
+          "wind_speed_ms": 1.6
         },
         {
           "label": "토 오후",
           "date": "10/31",
           "hour": 13,
-          "temperature": 17.8,
+          "temperature": 18.1,
           "precipitation": 0.0,
-          "wind_speed_ms": 4.5
+          "wind_speed_ms": 4.4
         },
         {
           "label": "일 오전",
           "date": "11/01",
           "hour": 7,
-          "temperature": 11.1,
-          "precipitation": 0.1,
-          "wind_speed_ms": 2.5
+          "temperature": 11.7,
+          "precipitation": 0.0,
+          "wind_speed_ms": 3.7
         },
         {
           "label": "일 오후",
           "date": "11/01",
           "hour": 13,
-          "temperature": 13.8,
-          "precipitation": 1.7,
-          "wind_speed_ms": 4.2
+          "temperature": 14.3,
+          "precipitation": 1.3,
+          "wind_speed_ms": 4.6
         }
       ],
       "water": {
@@ -971,14 +971,14 @@
         "today_rate": "31.2",
         "yesterday_rate": "31.2",
         "normal_rate": "68.8",
-        "updated_at": "2026-10-27 08:51"
+        "updated_at": "2026-10-27 09:21"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 332114,
-        "duration": 17525,
-        "toll": 17800,
+        "distance": 328215,
+        "duration": 17467,
+        "toll": 19600,
         "priority": "RECOMMEND"
       }
     }
