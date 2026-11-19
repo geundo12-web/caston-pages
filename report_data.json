@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19 16:00",
+  "generated_at": "2026-11-19 16:30",
   "app_name": "CAST:ON",
   "subtitle": "필드를 확인하고,\n캐스팅을 시작하다.\n\n날씨, 바람, 기압, 강수와 수위.\n출조 전 필요한 필드 데이터를 한눈에.",
   "spots": [
@@ -57,13 +57,13 @@
         "today_rate": "91.6",
         "yesterday_rate": "91.4",
         "normal_rate": "87.2",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 106972,
-        "duration": 6014,
+        "duration": 6548,
         "toll": 7600,
         "priority": "RECOMMEND"
       }
@@ -119,16 +119,16 @@
       "water": {
         "source": "rawris",
         "name": "금광",
-        "today_rate": "73.8",
+        "today_rate": "73.9",
         "yesterday_rate": "73.7",
         "normal_rate": "72.1",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 109016,
-        "duration": 5229,
+        "duration": 5713,
         "toll": 8400,
         "priority": "RECOMMEND"
       }
@@ -187,13 +187,13 @@
         "today_rate": "55.8",
         "yesterday_rate": "55.8",
         "normal_rate": "83.4",
-        "updated_at": "2026-11-19 16:00"
+        "updated_at": "2026-11-19 16:30"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 54862,
-        "duration": 4288,
+        "duration": 4322,
         "toll": 0,
         "priority": "RECOMMEND"
       }
@@ -249,16 +249,16 @@
       "water": {
         "source": "rawris",
         "name": "난정",
-        "today_rate": "68.7",
+        "today_rate": "68.5",
         "yesterday_rate": "68.6",
         "normal_rate": "79.8",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 76806,
-        "duration": 5397,
+        "duration": 5296,
         "toll": 0,
         "priority": "RECOMMEND"
       }
@@ -317,14 +317,14 @@
         "today_rate": "74.6",
         "yesterday_rate": "74.0",
         "normal_rate": "73.5",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 143550,
-        "duration": 8043,
-        "toll": 9000,
+        "distance": 140268,
+        "duration": 8391,
+        "toll": 10000,
         "priority": "RECOMMEND"
       }
     },
@@ -382,13 +382,13 @@
         "today_rate": "70.0",
         "yesterday_rate": "70.0",
         "normal_rate": "87.2",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 167556,
-        "duration": 9406,
+        "duration": 9807,
         "toll": 7900,
         "priority": "RECOMMEND"
       }
@@ -447,13 +447,13 @@
         "today_rate": "83.6",
         "yesterday_rate": "83.7",
         "normal_rate": "86.4",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 171072,
-        "duration": 9647,
+        "duration": 10046,
         "toll": 7900,
         "priority": "RECOMMEND"
       }
@@ -509,16 +509,16 @@
       "water": {
         "source": "rawris",
         "name": "대호방조제1(내측)",
-        "today_rate": "67.0",
+        "today_rate": "67.3",
         "yesterday_rate": "66.9",
         "normal_rate": "73.8",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 151442,
-        "duration": 8391,
+        "duration": 8896,
         "toll": 7900,
         "priority": "RECOMMEND"
       }
@@ -575,15 +575,15 @@
         "source": "water_or_kr",
         "name": "충주댐",
         "storage_rate": 48.2,
-        "current_level": 128.8952,
-        "storage_amount": 1324.9847,
-        "updated_at": "202611191550"
+        "current_level": 128.905,
+        "storage_amount": 1325.5699,
+        "updated_at": "202611191620"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 155216,
-        "duration": 7507,
+        "distance": 155384,
+        "duration": 7955,
         "toll": 8200,
         "priority": "RECOMMEND"
       }
@@ -640,15 +640,15 @@
         "source": "water_or_kr",
         "name": "대청댐",
         "storage_rate": 61.1,
-        "current_level": 71.8046,
-        "storage_amount": 910.9051,
-        "updated_at": "202611191550"
+        "current_level": 71.8017,
+        "storage_amount": 910.7433,
+        "updated_at": "202611191620"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
         "distance": 198180,
-        "duration": 9892,
+        "duration": 10071,
         "toll": 11600,
         "priority": "RECOMMEND"
       }
@@ -709,14 +709,14 @@
         "storage_amount": "600.840",
         "inflow": "0.000",
         "outflow": "0.000",
-        "updated_at": "2026-11-19 15:30"
+        "updated_at": "2026-11-19 16:00"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 166458,
-        "duration": 8632,
-        "toll": 9600,
+        "distance": 162395,
+        "duration": 9058,
+        "toll": 8100,
         "priority": "RECOMMEND"
       }
     },
@@ -774,14 +774,14 @@
         "storage_rate": 58.8,
         "current_level": 180.372,
         "storage_amount": 1705.8713,
-        "updated_at": "202611191550"
+        "updated_at": "202611191620"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 133164,
-        "duration": 6692,
-        "toll": 9600,
+        "distance": 129101,
+        "duration": 7124,
+        "toll": 8100,
         "priority": "RECOMMEND"
       }
     },
@@ -839,16 +839,16 @@
         "storage_rate": "72.600",
         "current_level": "101.740",
         "storage_amount": "122.030",
-        "inflow": "0.000",
-        "outflow": "86.360",
-        "updated_at": "2026-11-19 15:30"
+        "inflow": "65.830",
+        "outflow": "65.830",
+        "updated_at": "2026-11-19 16:00"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 118743,
-        "duration": 6425,
-        "toll": 7900,
+        "distance": 114680,
+        "duration": 7013,
+        "toll": 6400,
         "priority": "RECOMMEND"
       }
     },
@@ -906,14 +906,14 @@
         "today_rate": "29.0",
         "yesterday_rate": "28.9",
         "normal_rate": "59.3",
-        "updated_at": "2026-11-19 15:50"
+        "updated_at": "2026-11-19 16:20"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 297962,
-        "duration": 15082,
-        "toll": 13200,
+        "distance": 313310,
+        "duration": 14514,
+        "toll": 17300,
         "priority": "RECOMMEND"
       }
     },
@@ -971,14 +971,14 @@
         "today_rate": "33.7",
         "yesterday_rate": "33.7",
         "normal_rate": "68.7",
-        "updated_at": "2026-11-19 15:51"
+        "updated_at": "2026-11-19 16:21"
       },
       "route": {
         "success": true,
         "start_name": "고양시 덕양구 관산동 기준",
-        "distance": 332114,
-        "duration": 15234,
-        "toll": 17800,
+        "distance": 332982,
+        "duration": 15829,
+        "toll": 16800,
         "priority": "RECOMMEND"
       }
     }
